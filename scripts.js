@@ -98,13 +98,41 @@ const operate = () => {
 };
 
 /**
+ * Converts thousandths with commas
+ */
+const addCommas = (number) => {
+  // Splits the number into an array with two numbers: before the decimal and after
+  const numArray = number.toString().split(".");
+  const beforeDecimal = parseFloat(numArray[0]);
+  const afterDecimal = numArray[1];
+
+  let newNumber;
+  // sets newNumber to empty string to handle if "." is the first operand or there is no input
+  if (isNaN(beforeDecimal)) {
+    newNumber = "";
+  } else {
+    // Handles other numbers and inputs a comma
+    newNumber = beforeDecimal.toLocaleString("en", {
+      maximumFractionDigits: 0,
+    });
+  }
+  if (afterDecimal != null) {
+    return `${newNumber}.${afterDecimal}`;
+  } else {
+    return newNumber;
+  }
+};
+
+/**
  * Displays the stored previous operand and operator as well as the computed value to the screen
  */
 const display = () => {
-  currOperator.innerText = currentOperand;
+  currOperator.innerText = addCommas(currentOperand);
   if (operator !== null) {
-    console.log("Operator = " + operator);
-    prevOperator.innerText = `${previousOperand} ${operator}`;
+    //console.log("Operator = " + operator);
+    prevOperator.innerText = `${addCommas(previousOperand)} ${operator}`;
+  } else {
+    prevOperator.innerText = "";
   }
 };
 
